@@ -14,7 +14,7 @@ from .....checkout.error_codes import OrderCreateFromCheckoutErrorCode
 from .....checkout.fetch import fetch_checkout_info, fetch_checkout_lines
 from .....checkout.models import Checkout
 from .....core.taxes import TaxError, zero_money, zero_taxed_money
-from .....discount import OrderDiscountType
+from .....discount import DiscountType
 from .....giftcard import GiftCardEvents
 from .....giftcard.models import GiftCard, GiftCardEvent
 from .....order import OrderOrigin, OrderStatus
@@ -688,7 +688,7 @@ def test_order_from_checkout_with_voucher(
     assert checkout_line_variant == order_line.variant
     assert order.shipping_address == address
     assert order.shipping_method == checkout.shipping_method
-    order_discount = order.discounts.filter(type=OrderDiscountType.VOUCHER).first()
+    order_discount = order.discounts.filter(type=DiscountType.VOUCHER).first()
     assert order_discount
     assert (
         order_discount.amount_value
@@ -764,7 +764,7 @@ def test_order_from_checkout_with_voucher_apply_once_per_order(
     assert checkout_line_variant == order_line.variant
     assert order.shipping_address == address
     assert order.shipping_method == checkout.shipping_method
-    order_discount = order.discounts.filter(type=OrderDiscountType.VOUCHER).first()
+    order_discount = order.discounts.filter(type=DiscountType.VOUCHER).first()
     assert order_discount
     assert (
         order_discount.amount_value
@@ -827,7 +827,7 @@ def test_order_from_checkout_with_specific_product_voucher(
     assert checkout_line_variant == order_line.variant
     assert order.shipping_address == address
     assert order.shipping_method == checkout.shipping_method
-    order_discount = order.discounts.filter(type=OrderDiscountType.VOUCHER).first()
+    order_discount = order.discounts.filter(type=DiscountType.VOUCHER).first()
     assert order_discount
     assert (
         order_discount.amount_value
