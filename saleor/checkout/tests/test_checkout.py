@@ -14,6 +14,7 @@ from ...account.models import Address
 from ...core.taxes import zero_money
 from ...discount import DiscountValueType, VoucherType
 from ...discount.models import NotApplicable, Voucher, VoucherChannelListing
+from ...discount.utils import generate_sale_discount_objects_for_checkout
 from ...payment.models import Payment
 from ...plugins.manager import get_plugins_manager
 from ...shipping.interface import ShippingMethodData
@@ -705,10 +706,9 @@ def test_get_discount_for_checkout_specific_products_voucher_not_applicable(
     min_checkout_items_quantity,
     channel_USD,
 ):
-    discounts = []
     monkeypatch.setattr(
         "saleor.checkout.utils.get_prices_of_discounted_specific_product",
-        lambda checkout, discounts, product: [],
+        lambda checkout, product: [],
     )
     monkeypatch.setattr(
         "saleor.checkout.calculations.checkout_shipping_price",
@@ -744,6 +744,7 @@ def test_get_discount_for_checkout_specific_products_voucher_not_applicable(
         valid_pick_up_points=[],
         all_shipping_methods=[],
     )
+    discounts = []
     with pytest.raises(NotApplicable):
         get_voucher_discount_for_checkout(
             manager, voucher, checkout_info, [], None, discounts
@@ -1183,14 +1184,17 @@ def test_recalculate_checkout_discount_percentage(
 
 def test_recalculate_checkout_discount_with_sale(
     checkout_with_voucher_percentage,
-    discount_info,
+    sale,
 ):
     checkout = checkout_with_voucher_percentage
     manager = get_plugins_manager()
     lines, _ = fetch_checkout_lines(checkout)
     checkout_info = fetch_checkout_info(checkout, lines, [], manager)
 
-    recalculate_checkout_discount(manager, checkout_info, lines, [discount_info])
+    # To properly apply a sale at checkout, we need to generate discount objects.
+    generate_sale_discount_objects_for_checkout(checkout_info, lines)
+
+    recalculate_checkout_discount(manager, checkout_info, lines, [])
     assert checkout.discount == Money("1.50", "USD")
 
     checkout.price_expiration = timezone.now()
@@ -1200,7 +1204,6 @@ def test_recalculate_checkout_discount_with_sale(
         checkout_info=checkout_info,
         lines=lines,
         address=checkout.shipping_address,
-        discounts=[discount_info],
     ).gross == Money("13.50", "USD")
 
 
