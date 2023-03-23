@@ -484,7 +484,6 @@ def _prepare_order_data(
             checkout_info=checkout_info,
             lines=lines,
             address=address,
-            discounts=discounts,
         )
         + shipping_total
         - checkout.discount
