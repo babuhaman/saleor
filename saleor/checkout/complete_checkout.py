@@ -440,7 +440,6 @@ def _prepare_order_data(
         checkout_info=checkout_info,
         lines=lines,
         address=address,
-        discounts=discounts,
     )
     order_data.update(
         _process_shipping_data_for_order(
@@ -1117,7 +1116,6 @@ def _create_order_from_checkout(
         checkout_info=checkout_info,
         lines=checkout_lines_info,
         address=address,
-        discounts=discounts,
     )
 
     # status
