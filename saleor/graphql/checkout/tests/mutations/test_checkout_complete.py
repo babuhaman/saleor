@@ -1080,7 +1080,6 @@ def test_checkout_with_voucher_complete_product_on_sale(
         checkout_info=checkout_info,
         lines=lines,
         address=address,
-        discounts=[discount_info],
     )
     payment = payment_dummy
     payment.is_active = True
@@ -1271,7 +1270,6 @@ def test_checkout_complete_product_on_sale(
         checkout_info=checkout_info,
         lines=lines,
         address=address,
-        discounts=[discount_info],
     )
     payment = payment_dummy
     payment.is_active = True
@@ -1367,7 +1365,6 @@ def test_checkout_with_voucher_on_specific_product_complete_with_product_on_sale
         checkout_info=checkout_info,
         lines=lines,
         address=address,
-        discounts=[discount_info],
     )
     payment = payment_dummy
     payment.is_active = True
