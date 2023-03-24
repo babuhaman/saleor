@@ -417,7 +417,6 @@ def _get_the_cheapest_line(
 def fetch_checkout_info(
     checkout: "Checkout",
     lines: Iterable[CheckoutLineInfo],
-    discounts: Iterable["DiscountInfo"],
     manager: "PluginsManager",
     shipping_channel_listings: Optional[
         Iterable["ShippingMethodChannelListing"]
@@ -454,7 +453,7 @@ def fetch_checkout_info(
             checkout.collection_point,
             shipping_address,
             lines,
-            discounts,
+            [],
             manager,
             shipping_channel_listings,
         )
@@ -543,7 +542,6 @@ def get_valid_internal_shipping_method_list_for_checkout_info(
     checkout_info: "CheckoutInfo",
     shipping_address: Optional["Address"],
     lines: Iterable[CheckoutLineInfo],
-    discounts: Iterable["DiscountInfo"],
     shipping_channel_listings: Iterable[ShippingMethodChannelListing],
 ) -> List["ShippingMethodData"]:
     from . import base_calculations
@@ -587,7 +585,6 @@ def get_valid_external_shipping_method_list_for_checkout_info(
     checkout_info: "CheckoutInfo",
     shipping_address: Optional["Address"],
     lines: Iterable[CheckoutLineInfo],
-    discounts: Iterable["DiscountInfo"],
     manager: "PluginsManager",
 ) -> List["ShippingMethodData"]:
     return manager.list_shipping_methods_for_checkout(
@@ -599,7 +596,6 @@ def get_all_shipping_methods_list(
     checkout_info,
     shipping_address,
     lines,
-    discounts,
     shipping_channel_listings,
     manager,
 ):
@@ -609,11 +605,10 @@ def get_all_shipping_methods_list(
                 checkout_info,
                 shipping_address,
                 lines,
-                discounts,
                 shipping_channel_listings,
             ),
             get_valid_external_shipping_method_list_for_checkout_info(
-                checkout_info, shipping_address, lines, discounts, manager
+                checkout_info, shipping_address, lines, manager
             ),
         )
     )
@@ -644,7 +639,6 @@ def update_delivery_method_lists_for_checkout_info(
             checkout_info,
             shipping_address,
             lines,
-            discounts,
             shipping_channel_listings,
             manager,
         )
