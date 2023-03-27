@@ -1266,7 +1266,6 @@ def complete_checkout(
     lines: Iterable["CheckoutLineInfo"],
     payment_data: Dict[Any, Any],
     store_source: bool,
-    discounts: Iterable["DiscountInfo"],
     user: Optional["User"],
     app: Optional["App"],
     site_settings: Optional["SiteSettings"] = None,
@@ -1276,7 +1275,7 @@ def complete_checkout(
     private_metadata_list: Optional[List] = None,
 ) -> Tuple[Optional[Order], bool, dict]:
     transactions = checkout_info.checkout.payment_transactions.all()
-    fetch_checkout_data(checkout_info, manager, lines, discounts=discounts)
+    fetch_checkout_data(checkout_info, manager, lines)
 
     # When checkout is zero, we don't need any transaction to cover the checkout total.
     # We check if checkout is zero, and we also check what flow for marking an order as
@@ -1292,7 +1291,7 @@ def complete_checkout(
             manager=manager,
             checkout_info=checkout_info,
             lines=lines,
-            discounts=discounts,
+            discounts=[],
             user=user,
             app=app,
             tracking_code=tracking_code,
