@@ -784,7 +784,6 @@ def complete_checkout_pre_payment_part(
     manager: "PluginsManager",
     checkout_info: "CheckoutInfo",
     lines: Iterable["CheckoutLineInfo"],
-    discounts,
     user,
     site_settings=None,
     tracking_code=None,
@@ -799,7 +798,6 @@ def complete_checkout_pre_payment_part(
     if site_settings is None:
         site_settings = Site.objects.get_current().settings
 
-    # TODO Owczar: Drop discounts
     fetch_checkout_data(checkout_info, manager, lines)
 
     checkout = checkout_info.checkout
@@ -810,7 +808,7 @@ def complete_checkout_pre_payment_part(
             manager=manager,
             checkout_info=checkout_info,
             lines=lines,
-            discounts=discounts,
+            discounts=[],
             tracking_code=tracking_code,
             redirect_url=redirect_url,
             payment=payment,
@@ -1376,6 +1374,7 @@ def complete_checkout_with_payment(
     for thread race.
     :raises ValidationError
     """
+    # TODO Owczar: Drop discounts
     with transaction_with_commit_on_errors():
         checkout = (
             Checkout.objects.select_for_update()
@@ -1390,7 +1389,6 @@ def complete_checkout_with_payment(
             manager=manager,
             checkout_info=checkout_info,
             lines=lines,
-            discounts=discounts,
             user=user,
             site_settings=site_settings,
             tracking_code=tracking_code,
@@ -1441,7 +1439,6 @@ def complete_checkout_with_payment(
             manager=manager,
             checkout_info=checkout_info,
             lines=lines,
-            discounts=discounts,
             user=user,
             site_settings=site_settings,
             tracking_code=tracking_code,
