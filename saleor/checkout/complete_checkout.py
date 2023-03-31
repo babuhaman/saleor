@@ -657,7 +657,6 @@ def _prepare_checkout_with_transactions(
     manager: "PluginsManager",
     checkout_info: "CheckoutInfo",
     lines: Iterable["CheckoutLineInfo"],
-    discounts: Iterable["DiscountInfo"],
     tracking_code: Optional[str],
     redirect_url: Optional[str],
 ):
@@ -1333,7 +1332,6 @@ def complete_checkout_with_transaction(
         manager=manager,
         checkout_info=checkout_info,
         lines=lines,
-        discounts=discounts,
         tracking_code=tracking_code,
         redirect_url=redirect_url,
     )
