@@ -22,6 +22,7 @@ All notable, unreleased changes to this project will be documented in this file.
 - Allow setting metadata during invoice creating and updating - #12641 by @IKarbowiak
 - Introduce channel permissions - #10423 by @IKarbowiak
   - Limit staff users to access only certain channels. Granted permissions only apply to channels that the user has already been given access to.
+- [Preview] Add `OrderBulkCreate` mutation - #12269 by @zedzior
 
 ### Saleor Apps
 - Introduce channel permissions - #10423 by @IKarbowiak
@@ -173,7 +174,6 @@ All notable, unreleased changes to this project will be documented in this file.
 - Support resolving `Order` as an entity in Apollo Federation - #12328 by @binary-koan
 - [Preview] Add `ProductBulkCreate` mutation - #12177 by @SzymJ
 - [Preview] Add `CustomerBulkUpdate` mutation - #12268 by @SzymJ
-- [Preview] Add `OrderBulkCreate` mutation - #12269 by @zedzior
 
 ### Saleor Apps
 
